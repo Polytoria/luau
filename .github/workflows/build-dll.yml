@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Luau macOS
-          path: build/Release
+          path: build/*.so
   build-linux-x64:
     name: Build Linux (x64)
     runs-on: ubuntu-latest
