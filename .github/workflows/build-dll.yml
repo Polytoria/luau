@@ -75,7 +75,7 @@ jobs:
         run: cmake --version
       - name: Build Luau
         run: |
-          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON
+          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           cmake --build build --config Release
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
@@ -94,7 +94,7 @@ jobs:
         run: cmake --version
       - name: Build Luau
         run: |
-          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON
+          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
           cmake --build build --config Release
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
