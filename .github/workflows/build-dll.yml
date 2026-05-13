@@ -56,8 +56,8 @@ jobs:
         run: cmake --version
       - name: Build Luau
         run: |
-          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
-          cmake --build build --config Release
+          cmake -S . -B build-macos-universal -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+          cmake --build build-macos-universal
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -75,8 +75,8 @@ jobs:
         run: cmake --version
       - name: Build Luau
         run: |
-          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-          cmake --build build --config Release
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -94,8 +94,8 @@ jobs:
         run: cmake --version
       - name: Build Luau
         run: |
-          cmake -S . -B build -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-          cmake --build build --config Release
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
