@@ -63,8 +63,8 @@ jobs:
         with:
           name: Luau macOS
           path: |
-            build/*.dylib
-            build/*.a
+            build-macos-universal/*.dylib
+            build-macos-universal/*.a
   build-linux-x64:
     name: Build Linux (x64)
     runs-on: ubuntu-latest
@@ -75,17 +75,21 @@ jobs:
         uses: actions/checkout@v5
       - name: Test cmake installation
         run: cmake --version
-      - name: Build Luau
+      - name: Build Luau Static
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-          cmake --build build
+          cmake -S . -B build-static -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build-static
+      - name: Build Luau Shared
+        run: |
+          cmake -S . -B build-shared -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build-shared
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
           name: Luau Linux (x64)
           path: |
-            build/*.so
-            build/*.a
+            build-shared/*.so
+            build-static/*.a
   build-linux-arm:
     name: Build Linux (ARM)
     runs-on: ubuntu-24.04-arm
@@ -96,14 +100,18 @@ jobs:
         uses: actions/checkout@v5
       - name: Test cmake installation
         run: cmake --version
-      - name: Build Luau
+      - name: Build Luau Static
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-          cmake --build build
+          cmake -S . -B build-static -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build-static
+      - name: Build Luau Shared
+        run: |
+          cmake -S . -B build-shared -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+          cmake --build build-shared
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: Luau Linux (ARM)
+          name: Luau Linux (x64)
           path: |
-            build/*.so
-            build/*.a
+            build-shared/*.so
+            build-static/*.a
