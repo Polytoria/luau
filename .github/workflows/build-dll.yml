@@ -54,17 +54,21 @@ jobs:
         uses: actions/checkout@v5
       - name: Test cmake installation
         run: cmake --version
-      - name: Build Luau
+      - name: Build Luau Static
         run: |
-          cmake -S . -B build-macos-universal -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
-          cmake --build build-macos-universal
+          cmake -S . -B build-static -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+          cmake --build build-static
+      - name: Build Luau Shared
+        run: |
+          cmake -S . -B build-shared -G Ninja -DCMAKE_BUILD_TYPE=Release -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DLUAU_BUILD_SHARED=ON -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+          cmake --build build-shared
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
         with:
           name: Luau macOS
           path: |
-            build-macos-universal/*.dylib
-            build-macos-universal/*.a
+            build-shared/*.dylib
+            build-static/*.a
   build-linux-x64:
     name: Build Linux (x64)
     runs-on: ubuntu-latest
