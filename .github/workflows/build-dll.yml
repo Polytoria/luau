@@ -18,7 +18,7 @@ jobs:
         run: cmake --version
       - name: Build Luau Static
         run: |
-          cmake -S . -B build-static -A x64 -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON
+          cmake -S . -B build-static -A x64 -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
           cmake --build build-static --config Release
       - name: Build Luau Shared
         run: |
@@ -43,7 +43,7 @@ jobs:
         run: cmake --version
       - name: Build Luau Static
         run: |
-          cmake -S . -B build-static -A ARM64 -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON
+          cmake -S . -B build-static -A ARM64 -DLUAU_BUILD_CLI=OFF -DLUAU_BUILD_TESTS=OFF -DLUAU_EXTERN_C=ON -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
           cmake --build build-static --config Release
       - name: Build Luau Shared
         run: |
