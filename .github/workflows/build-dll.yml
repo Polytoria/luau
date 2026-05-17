@@ -29,8 +29,8 @@ jobs:
         with:
           name: Luau Windows (x64)
           path: |
-            build-shared/*.dll
-            build-static/*.lib
+            build-shared/Release/*.dll
+            build-static/Release/*.lib
   build-windows-arm:
     name: Build Windows (ARM)
     runs-on: windows-11-arm
@@ -54,8 +54,8 @@ jobs:
         with:
           name: Luau Windows (ARM)
           path: |
-            build-shared/*.dll
-            build-static/*.lib
+            build-shared/Release/*.dll
+            build-static/Release/*.lib
   build-macos:
     name: Build macOS
     runs-on: macos-latest
