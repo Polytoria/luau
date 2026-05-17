@@ -62,7 +62,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Luau macOS
-          path: build/*.dylib
+          path: |
+            build/*.dylib
+            build/*.a
   build-linux-x64:
     name: Build Linux (x64)
     runs-on: ubuntu-latest
@@ -81,7 +83,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Luau Linux (x64)
-          path: build/*.so
+          path: |
+            build/*.so
+            build/*.a
   build-linux-arm:
     name: Build Linux (ARM)
     runs-on: ubuntu-24.04-arm
@@ -100,4 +104,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Luau Linux (ARM)
-          path: build/*.so
+          path: |
+            build/*.so
+            build/*.a
