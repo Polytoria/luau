@@ -109,51 +109,6 @@ static int luaB_setmetatable(lua_State* L)
     return 1;
 }
 
-static void getfunc(lua_State* L, int opt)
-{
-    if (lua_isfunction(L, 1))
-        lua_pushvalue(L, 1);
-    else
-    {
-        lua_Debug ar;
-        int level = opt ? luaL_optinteger(L, 1, 1) : luaL_checkinteger(L, 1);
-        luaL_argcheck(L, level >= 0, 1, "level must be non-negative");
-        if (lua_getinfo(L, level, "f", &ar) == 0)
-            luaL_argerror(L, 1, "invalid level");
-        if (lua_isnil(L, -1))
-            luaL_error(L, "no function environment for tail call at level %d", level);
-    }
-}
-
-static int luaB_getfenv(lua_State* L)
-{
-    getfunc(L, 1);
-    if (lua_iscfunction(L, -1))             // is a C function?
-        lua_pushvalue(L, LUA_GLOBALSINDEX); // return the thread's global env.
-    else
-        lua_getfenv(L, -1);
-    lua_setsafeenv(L, -1, false);
-    return 1;
-}
-
-static int luaB_setfenv(lua_State* L)
-{
-    luaL_checktype(L, 2, LUA_TTABLE);
-    getfunc(L, 0);
-    lua_pushvalue(L, 2);
-    lua_setsafeenv(L, -1, false);
-    if (lua_isnumber(L, 1) && lua_tonumber(L, 1) == 0)
-    {
-        // change environment of current thread
-        lua_pushthread(L);
-        lua_insert(L, -2);
-        lua_setfenv(L, -2);
-        return 0;
-    }
-    else if (lua_iscfunction(L, -2) || lua_setfenv(L, -2) == 0)
-        luaL_error(L, "'setfenv' cannot change environment of given object");
-    return 1;
-}
 
 static int luaB_rawequal(lua_State* L)
 {
@@ -431,7 +386,6 @@ static const luaL_Reg base_funcs[] = {
     {"assert", luaB_assert},
     {"error", luaB_error},
     {"gcinfo", luaB_gcinfo},
-    {"getfenv", luaB_getfenv},
     {"getmetatable", luaB_getmetatable},
     {"next", luaB_next},
     {"newproxy", luaB_newproxy},
@@ -441,7 +395,6 @@ static const luaL_Reg base_funcs[] = {
     {"rawset", luaB_rawset},
     {"rawlen", luaB_rawlen},
     {"select", luaB_select},
-    {"setfenv", luaB_setfenv},
     {"setmetatable", luaB_setmetatable},
     {"tonumber", luaB_tonumber},
     {"tostring", luaB_tostring},
